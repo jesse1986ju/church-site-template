@@ -5,6 +5,7 @@ import About from '@/components/About';
 import FirstVisit from '@/components/FirstVisit';
 import Sermon from '@/components/Sermon';
 import Footer from '@/components/Footer';
+import EventTracker from '@/components/EventTracker';
 
 export const revalidate = 60; // ISR — rebuild at most every 60s
 
@@ -35,6 +36,11 @@ export default async function HomePage() {
         churchVoice={church.church_voice}
         photoUrls={church.photo_urls}
       />
+
+      {/* Scroll sentinel — sits at ~50% of page content.
+          EventTracker fires scroll_50 when this enters the viewport. */}
+      <div id="scroll-sentinel" aria-hidden="true" />
+
       <FirstVisit
         whatToExpect={church.what_to_expect}
         whatToWear={church.what_to_wear}
@@ -52,6 +58,9 @@ export default async function HomePage() {
         addressZip={church.address_zip}
         serviceTimes={church.service_times}
       />
+
+      {/* Client-side event tracker — renders nothing, fires Supabase events */}
+      <EventTracker />
     </main>
   );
 }
